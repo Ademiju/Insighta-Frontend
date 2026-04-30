@@ -18,7 +18,7 @@ export default function App() {
     useEffect(() => {
         async function load() {
             try {
-                const res = await request<any>('/auth/me')
+                const res = await request<any>('/users/me')
                 setUser(res.data)
                 navigate('/dashboard')
             } catch {
