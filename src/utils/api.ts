@@ -19,7 +19,6 @@ export async function request<T>(path: string, options: RequestInit = {}, retry 
         if (refreshed.ok) {
             return request<T>(path, options, false)}
         else {
-            logout()
             throw new Error("SESSION_EXPIRED")
         }
     }
@@ -28,7 +27,7 @@ export async function request<T>(path: string, options: RequestInit = {}, retry 
         const payload = await response.json().catch(() => null)
 
         const message = payload?.message || 'Request failed'
-        if (message === 'SESSION_EXPIRED') {
+        if (message === 'SESSION_EXPIRED' || message === 'Missing refresh token') {
             logout()
             return Promise.reject(new Error('SESSION_EXPIRED'))
         }
