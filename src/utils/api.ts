@@ -19,6 +19,7 @@ export async function request<T>(path: string, options: RequestInit = {}, retry 
         if (refreshed.ok) {
             return request<T>(path, options, false)}
         else {
+            logout()
             throw new Error("SESSION_EXPIRED")
         }
     }
@@ -29,9 +30,9 @@ export async function request<T>(path: string, options: RequestInit = {}, retry 
         const message = payload?.message || 'Request failed'
         if (message === 'SESSION_EXPIRED') {
             logout()
-            return Promise.reject(new Error('Session expired'))
+            return Promise.reject(new Error('SESSION_EXPIRED'))
         }
-        throw new Error(payload?.message || `Request failed`)
+        throw new Error(message)
     }
 
     return response.json()
