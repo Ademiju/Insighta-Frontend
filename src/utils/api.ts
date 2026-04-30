@@ -19,7 +19,6 @@ export async function request<T>(path: string, options: RequestInit = {}, retry 
         if (refreshed.ok) {
             return request<T>(path, options, false)}
         else {
-            logout()
             throw new Error("SESSION_EXPIRED")
         }
     }
