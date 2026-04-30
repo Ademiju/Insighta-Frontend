@@ -16,11 +16,21 @@ export async function request<T>(path: string, options: RequestInit = {}, retry 
             method: 'POST',
             credentials: 'include',
         })
-        if (refreshed.ok) return request<T>(path, options, false)
+        if (refreshed.ok) {
+            return request<T>(path, options, false)}
+        else {
+            throw new Error("SESSION_EXPIRED")
+        }
     }
 
     if (!response.ok) {
         const payload = await response.json().catch(() => null)
+
+        const message = payload?.message || 'Request failed'
+        if (message === 'SESSION_EXPIRED') {
+            logout()
+            return Promise.reject(new Error('Session expired'))
+        }
         throw new Error(payload?.message || `Request failed`)
     }
 
@@ -37,4 +47,8 @@ export function formatDate(value: string) {
 
 export function percent(value: number) {
     return `${Math.round(value * 100)}%`
+}
+
+function logout() {
+    window.location.replace('/login')
 }
