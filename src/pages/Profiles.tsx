@@ -183,7 +183,7 @@ export default function Profiles() {
                 <Pagination
                     page={data.page}
                     totalPages={data.total_pages}
-                    onPage={(page) => updateFilters({ page })}
+                    onPage={(page: number) => updateFilters({ page })}
                 />
             )}
         </section>

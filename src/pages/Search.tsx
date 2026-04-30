@@ -55,7 +55,7 @@ export default function Search() {
                 <Pagination
                     page={page}
                     totalPages={results.total_pages}
-                    onPage={(p) => runSearch(p)}
+                    onPage={(p: number) => runSearch(p)}
                 />
             )}
         </section>
